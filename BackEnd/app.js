@@ -10,6 +10,8 @@ const User = require('./models/User'); //Without this table was not getting crea
 //imports requires for different routes
 const createUserRoute = require('./routes/create-user');
 const getUserRoute = require('./routes/get-user');
+const updateUserRoute = require('./routes/update-user');
+const deleteUserRoute = require('./routes/delete-user');
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use(bodyParser.json());
 
 app.use('/', createUserRoute);
 app.use('/', getUserRoute);
+app.use('/', updateUserRoute);
+app.use('/', deleteUserRoute);
 
 sequelize.sync()
     .then(result => {
