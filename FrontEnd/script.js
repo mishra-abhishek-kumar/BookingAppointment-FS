@@ -11,16 +11,14 @@ userList.addEventListener('click', editUser);
 
 //Accessing userData from localStorage and displaying it
 window.addEventListener('DOMContentLoaded', () => {
-    const localStorageObject = localStorage;
-    // console.log(localStorageObject.length);
-    const localStorageKeys = Object.keys(localStorageObject);
-
-    for (var i = 0; i < localStorageKeys.length; i++) {
-        const key = localStorageKeys[i];
-        const userDetailString = localStorageObject[key];
-        const userDetailObj = JSON.parse(userDetailString);
-        showUserDetail(userDetailObj);
-    }
+    axios.get('http://localhost:4000/get-user')
+        .then(response => {
+            for(let i=0; i<response.data.length; i++) {
+                showUserDetail(response.data[i]);
+                // console.log(response.data[i]);
+            }
+        })
+        .catch(err => console.log(err))
 })
 
 function showUserDetail(user) {
@@ -40,17 +38,15 @@ function showUserDetail(user) {
     editBtn.setAttribute('value', "EDIT");
 
     //Appending all above 3 elements
-    li.appendChild(document.createTextNode(`${user.userName} - ${user.userEmail} - ${user.userPhone}`));
+    li.appendChild(document.createTextNode(`${user.name} - ${user.email} - ${user.phone}`));
     li.appendChild(delBtn);
     li.appendChild(editBtn);
 
-    if(localStorage.length > 0) {
-        flag = true;
-        appointmentListCSS();
-    }
-
     //appendimg the li to ul inside DOM
     userList.appendChild(li);
+
+    flag = true;
+    appointmentListCSS(flag);
 }
 
 async function addUser(e) {
