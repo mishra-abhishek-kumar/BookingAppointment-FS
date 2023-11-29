@@ -41,6 +41,7 @@ function showUserDetail(user) {
     li.appendChild(document.createTextNode(`${user.name} - ${user.email} - ${user.phone}`));
     li.appendChild(delBtn);
     li.appendChild(editBtn);
+    li.setAttribute("id", user.id);
 
     //appendimg the li to ul inside DOM
     userList.appendChild(li);
@@ -91,7 +92,8 @@ async function addUser(e) {
 
         try {
             //adding users to SQL DB
-            await axios.post('http://localhost:4000/create-user', userData);
+            const response = await axios.post('http://localhost:4000/create-user', userData);
+            li.setAttribute("id", response.data.id);
             flag = true;
             appointmentListCSS(flag);
         } catch (error) {
