@@ -53,7 +53,7 @@ function showUserDetail(user) {
     userList.appendChild(li);
 }
 
-function addUser(e) {
+async function addUser(e) {
     e.preventDefault();
 
     if (inputName.value === '' || inputEmail.value === '' || inputPhone.value === '') {
@@ -88,17 +88,18 @@ function addUser(e) {
 
         //Storing user Data as an object
         const userData = {
-            userName: `${inputName.value}`,
-            userEmail: `${inputEmail.value}`,
-            userPhone: `${inputPhone.value}`
+            name: `${inputName.value}`,
+            email: `${inputEmail.value}`,
+            phone: `${inputPhone.value}`
         }
 
-        //setting localStorage with userData
-        localStorage.setItem(inputEmail.value, JSON.stringify(userData));
-        console.log(localStorage.length);
-        if(localStorage.length > 0) {
+        try {
+            //adding users to SQL DB
+            await axios.post('http://localhost:4000/create-user', userData);
             flag = true;
-            appointmentListCSS();
+            appointmentListCSS(flag);
+        } catch (error) {
+            console.log(error);
         }
 
         inputName.value = '';
@@ -133,9 +134,8 @@ function editUser(e) {
     }
 }
 
-function appointmentListCSS() {
+function appointmentListCSS(flag) {
     var appointments = document.getElementById('appointments');
-    // var flag = true;
     appointments.style.visibility = 'hidden';
     if(flag) {
         appointments.classList.add('appointments-style');
@@ -144,7 +144,6 @@ function appointmentListCSS() {
         appointments.classList.remove('appointment-style');
         appointments.style.visibility = 'hidden';
     }
-    
 }
 
 appointmentListCSS();

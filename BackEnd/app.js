@@ -21,12 +21,16 @@ const app = express();
 
 app.use(bodyParser.json());
 
+//import required to allow CORS origin connection
+const cors = require("cors");
+app.use(cors());
+
 app.use('/', createUserRoute);
 app.use('/', getUserRoute);
 app.use('/', updateUserRoute);
 app.use('/', deleteUserRoute);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4001;
 
 sequelize.sync() //sync is used to create tables in DB, available in models
     .then(result => {
