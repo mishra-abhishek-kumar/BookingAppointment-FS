@@ -1,5 +1,9 @@
 const express = require('express');
 
+//import required to create environment variables
+const dotenv = require('dotenv');
+dotenv.config({path: './.env'});
+
 //import required to parse JSON data as a POST request
 const bodyParser = require('body-parser');
 
@@ -22,10 +26,12 @@ app.use('/', getUserRoute);
 app.use('/', updateUserRoute);
 app.use('/', deleteUserRoute);
 
-sequelize.sync()
+const PORT = process.env.PORT;
+
+sequelize.sync() //sync is used to create tables in DB, available in models
     .then(result => {
-        app.listen(4000, () => {
-            console.log("Listening at port: 4000");
+        app.listen(PORT, () => {
+            console.log("Listening at port:", PORT);
         });
     })
     .catch(err => console.log(err));
