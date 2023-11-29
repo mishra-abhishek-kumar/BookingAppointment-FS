@@ -107,11 +107,13 @@ async function addUser(e) {
 }
 
 async function removeUser(e) {
-    try {
-        const response = axios.delete(`http://localhost:4000/delete-user/${e.target.parentElement.id}`);
-        userList.removeChild(e.target.parentElement);
-    } catch (error) {
-        console.log(error);
+    if (e.target.classList.contains('del')) {
+        try {
+            const response = axios.delete(`http://localhost:4000/delete-user/${e.target.parentElement.id}`);
+            userList.removeChild(e.target.parentElement);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
