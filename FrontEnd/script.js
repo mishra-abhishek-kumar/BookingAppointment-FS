@@ -123,8 +123,12 @@ function editUser(e) {
         inputName.value = partsString[0].trim();
         inputEmail.value = partsString[1].trim();
         inputPhone.value = partsString[2].trim();
-        localStorage.removeItem(partsString[1].trim());
-        userList.removeChild(e.target.parentElement);
+        try {
+            const response = axios.delete(`http://localhost:4000/delete-user/${e.target.parentElement.id}`);
+            userList.removeChild(e.target.parentElement);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
