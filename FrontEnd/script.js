@@ -106,18 +106,12 @@ async function addUser(e) {
     }
 }
 
-function removeUser(e) {
-    if (e.target.classList.contains('del')) {
-        //spliting li text, returns an array
-        partsString = e.target.parentElement.innerText.split('-');
-        email_add = partsString[1].trim();
+async function removeUser(e) {
+    try {
+        const response = axios.delete(`http://localhost:4000/delete-user/${e.target.parentElement.id}`);
         userList.removeChild(e.target.parentElement);
-        localStorage.removeItem(email_add);
-        if(localStorage.length == 0) {
-            flag = false;
-            appointmentListCSS();
-        }
-        console.log(localStorage.length);
+    } catch (error) {
+        console.log(error);
     }
 }
 
