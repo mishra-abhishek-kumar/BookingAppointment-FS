@@ -1,15 +1,15 @@
 const User = require('../models/User');
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
     const userId = req.params.userId;
-    User.findByPk(userId)
-        .then(user => {
-            return user.destroy();
-        })
-        .then(result => {
-            res.send(result);
-        })
-        .catch(err => console.log(err));
+
+    try {
+        const user = await User.findByPk(userId);
+        const result = await user.destroy();
+        res.send(result);
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 module.exports = deleteUser;

@@ -1,20 +1,20 @@
 const User = require('../models/User');
 
-const createUser = (req, res) => {
+const createUser = async (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const phone = req.body.phone;
 
-    User.create({
-        name: req.body.name,
-        email: req.body.email,
-        phone: req.body.phone
-    })
-    .then(result => {
-        console.log(result);
-        res.send(result);
-    })
-    .catch(err => console.log(err));
+    try {
+        const result = await User.create({
+            name: name,
+            email: email,
+            phone: phone
+        })
+        res.json(result);
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 module.exports = createUser;

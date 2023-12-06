@@ -10,15 +10,16 @@ userList.addEventListener('click', removeUser);
 userList.addEventListener('click', editUser);
 
 //Accessing userData from localStorage and displaying it
-window.addEventListener('DOMContentLoaded', () => {
-    axios.get('http://localhost:4000/get-user')
-        .then(response => {
-            for(let i=0; i<response.data.length; i++) {
-                showUserDetail(response.data[i]);
-                // console.log(response.data[i]);
-            }
-        })
-        .catch(err => console.log(err))
+window.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const response = await axios.get('http://localhost:4000/get-user');
+        for(let i=0; i<response.data.length; i++) {
+            showUserDetail(response.data[i]);
+            // console.log(response.data[i]);
+        }
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 function showUserDetail(user) {
@@ -117,14 +118,14 @@ async function removeUser(e) {
     }
 }
 
-function editUser(e) {
+async function editUser(e) {
     if (e.target.classList.contains('edit')) {
         partsString = e.target.parentElement.innerText.split('-');
         inputName.value = partsString[0].trim();
         inputEmail.value = partsString[1].trim();
         inputPhone.value = partsString[2].trim();
         try {
-            const response = axios.delete(`http://localhost:4000/delete-user/${e.target.parentElement.id}`);
+            const response = await axios.delete(`http://localhost:4000/delete-user/${e.target.parentElement.id}`);
             userList.removeChild(e.target.parentElement);
         } catch (error) {
             console.log(error);

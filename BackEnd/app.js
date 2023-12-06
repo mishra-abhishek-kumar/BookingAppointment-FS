@@ -30,7 +30,7 @@ app.use('/', deleteUserRoute);
 
 const PORT = process.env.PORT || 4001;
 
-sequelize.sync() //sync is used to create tables in DB, available in models
+sequelize.sync({force: true}) //sync is used to create tables in DB, available in models
     .then(result => {
         app.listen(PORT, () => {
             console.log("Listening at port:", PORT);
